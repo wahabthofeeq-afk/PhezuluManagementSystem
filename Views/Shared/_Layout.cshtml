@@ -1,0 +1,123 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Phezulu</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/PhezuluManagementSystem.styles.css" asp-append-version="true" />
+</head>
+<body>
+
+    <header class="pz-navbar">
+        <div class="pz-navbar-inner">
+            <button type="button"
+                    id="menuToggle"
+                    class="btn btn-outline-secondary pz-menu-toggle"
+                    aria-label="Open navigation menu"
+                    aria-controls="pzSidebar"
+                    aria-expanded="false">
+                ☰
+            </button>
+
+            <!-- Company name is centered across the full navbar -->
+            <a class="pz-brand"
+               asp-controller="Manufacturing"
+               asp-action="Index">
+                Phezulu GLASS & ALUMINIUM
+            </a>
+        </div>
+    </header>
+
+    <!-- Overlay starts below the navbar -->
+    <div id="pzSidebarOverlay"
+         class="pz-sidebar-overlay"
+         hidden>
+    </div>
+
+    <!-- Sidebar starts below the navbar -->
+    <aside id="pzSidebar"
+           class="pz-sidebar"
+           aria-label="Main navigation">
+
+
+        <div class="pz-sidebar-top">
+            <button type="button"
+                    id="themeToggle"
+                    class="btn btn-outline-secondary"
+                    aria-label="Switch theme">
+                <span id="themeIcon">☾</span>
+                <span id="themeLabel">Dark mode</span>
+            </button>
+
+            <button type="button"
+                    id="menuClose"
+                    class="btn btn-outline-secondary"
+                    aria-label="Close navigation menu">
+                ✕
+            </button>
+        </div>
+
+
+        <div class="pz-sidebar-brand">
+            Phezulu Glass & Aluminium
+        </div>
+
+        <nav class="pz-sidebar-nav" aria-label="System navigation">
+          
+
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                @if (User.IsInRole("Owner"))
+                {
+                    <a asp-controller="Staff" asp-action="Index">
+                        <span>Staff Management</span>
+                    </a>
+                }
+
+                <a asp-area="Identity" asp-page="/Account/Manage/Index">
+                    <span>Account</span>
+                </a>
+
+                <form asp-area="Identity"
+                      asp-page="/Account/Logout"
+                      asp-route-returnUrl="/"
+                      method="post"
+                      class="pz-sidebar-logout-form">
+                    <button type="submit" class="pz-sidebar-link">
+                        Logout
+                    </button>
+                </form>
+            }
+            else
+            {
+                <a asp-area="Identity" asp-page="/Account/Login">
+                    <span>Login</span>
+                </a>
+            }
+        </nav>
+    </aside>
+
+    <main role="main" class="pz-main">
+        @RenderBody()
+    </main>
+
+    <footer class="pz-footer">
+        <div class="container-fluid">
+            <span class="pz-footer-brand">Phezulu</span>
+            <span class="pz-footer-divider">/</span>
+            Glass &amp; Aluminium Management System
+            <span class="pz-footer-year">© 2026</span>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
